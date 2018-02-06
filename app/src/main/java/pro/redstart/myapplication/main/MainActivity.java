@@ -8,8 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -104,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
-    public void showNewTaskDialog() {
+    public void showNewTaskDialog(ArrayList<String> cache) {
         newTaskDialog.show();
 
         EditText tvStHour = newTaskDialog.findViewById(R.id.startHour);
@@ -127,6 +131,21 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             boolean isRepeated = repeat.isChecked();
 
             presenter.onTaskAdded(title, stHour, stMinute, fnHour, fnMinute, isRepeated);
+        });
+
+        Spinner spinner = newTaskDialog.findViewById(R.id.spinner);
+        spinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, cache));
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i > 0) {
+                    tvTitle.setText(cache.get(i));
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
         });
     }
 
