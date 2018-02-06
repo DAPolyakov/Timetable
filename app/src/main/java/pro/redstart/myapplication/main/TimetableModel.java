@@ -12,6 +12,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import pro.redstart.myapplication.common.utils.ConvertUtils;
 import pro.redstart.myapplication.models.Task;
@@ -20,7 +21,9 @@ class TimetableModel {
 
     private final Moshi moshi = new Moshi.Builder().build();
     private final Type TYPE_LIST_TASK = Types.newParameterizedType(List.class, Task.class);
+    private final Type TYPE_LIST_LAST_TASK = Types.newParameterizedType(List.class, String.class);
     private final String KEY_PREFIX = "date+";
+    private final String KEY_LAST_TASK = "last_task";
 
     private SharedPreferences preferences;
 
@@ -37,6 +40,7 @@ class TimetableModel {
                 selectedTask,
                 (a, b) -> (a.getStHour() * 60 + a.getStMinute() - b.getStHour() * 60 - b.getStMinute()));
         saveTasks(selectedTask, selectedDate);
+        addTaskToCache(task.getTitle());
     }
 
     void addTask(Task task, String date) {
@@ -48,7 +52,7 @@ class TimetableModel {
         saveTasks(tasks, date);
     }
 
-    void removeTask(Task task){
+    void removeTask(Task task) {
         selectedTask.remove(task);
         saveTasks(selectedTask, selectedDate);
     }
@@ -59,11 +63,11 @@ class TimetableModel {
         return selectedTask;
     }
 
-    int getCountTask(String date){
+    int getCountTask(String date) {
         return loadTasks(date).size();
     }
 
-    private ArrayList<Task> loadTasks(String date){
+    private ArrayList<Task> loadTasks(String date) {
         String key = KEY_PREFIX + date;
         JsonAdapter<List<Task>> jsonAdapter = moshi.adapter(TYPE_LIST_TASK);
         List<Task> tasks = Collections.emptyList();
@@ -96,7 +100,38 @@ class TimetableModel {
         editor.apply();
     }
 
-    void saveState(){
+    void saveState() {
         saveTasks(selectedTask, selectedDate);
+    }
+
+    ArrayList<String> getLastTasks() {
+        JsonAdapter<List<String>> jsonAdapter = moshi.adapter(TYPE_LIST_LAST_TASK);
+        List<String> tasks = Collections.emptyList();
+        String json = loadString(KEY_LAST_TASK);
+        try {
+            tasks = jsonAdapter.fromJson(json);
+        } catch (IOException ignored) {
+        }
+
+        return ConvertUtils.convertListToArray(tasks);
+    }
+
+    private void addTaskToCache(String title) {
+        ArrayList<String> tasks = getLastTasks();
+        for (String task : tasks) {
+            if (Objects.equals(task, title)){
+                tasks.remove(task);
+                break;
+            }
+        }
+
+        tasks.add(title);
+        while (tasks.size() > 7){
+            tasks.remove(0);
+        }
+
+        JsonAdapter<List<String >> jsonAdapter = moshi.adapter(TYPE_LIST_LAST_TASK);
+        String json = jsonAdapter.toJson(tasks);
+        save(KEY_LAST_TASK, json);
     }
 }

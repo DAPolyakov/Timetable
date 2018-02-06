@@ -16,7 +16,7 @@ public interface MainContract {
         void setSelectedDay(int day);
 
         void showTasks(ArrayList<Task> tasks);
-        void showNewTaskDialog();
+        void showNewTaskDialog(ArrayList<String> cache);
         void clearNewTaskDialog();
         void dismissNewTaskDialog();
 
