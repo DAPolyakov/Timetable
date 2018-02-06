@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#56b3b3</color>
+    <color name="colorAccent">#79443b</color>
+
+    <color name="blackRed">#452020</color>
+    <color name="blueSky">#f0ffff</color>
+    <color name="marl">#0f8073</color>
+    <color name="marl222">#79443b</color>
+    <color name="paleYellowGreen">#edda98</color>
+    <color name="ultramarineBlue">#20214f</color>
+
+
+    <color name="stage_0">#fff</color>
+    <color name="stage_1">#7394ff8d</color>
+    <color name="stage_2">#9bfdff73</color>
+    <color name="stage_3">#66ffa514</color>
+    <color name="stage_4">#62ff0000</color>
+
+</resources>

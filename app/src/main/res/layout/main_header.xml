@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="horizontal"
+    android:paddingBottom="8dp"
+    android:paddingTop="8dp"
+    tools:showIn="@layout/activity_main">
+
+    <TextView
+        android:id="@+id/previous_mouth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        android:text="@string/sign_previous"
+        android:textColor="#0f8073"
+        android:textSize="26sp" />
+
+    <TextView
+        android:id="@+id/mouthYear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:text="Май 2000"
+        android:textColor="#172459"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/next_mouth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        android:text="@string/sign_next"
+        android:textColor="#0f8073"
+        android:textSize="26sp" />
+</LinearLayout>

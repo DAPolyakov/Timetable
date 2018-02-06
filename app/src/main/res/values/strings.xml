@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Расписание</string>
+    <string name="sign_previous"><![CDATA[<]]></string>
+    <string name="sign_next"><![CDATA[>]]></string>
+</resources>
