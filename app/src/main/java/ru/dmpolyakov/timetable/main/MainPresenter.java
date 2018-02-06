@@ -3,6 +3,7 @@ package ru.dmpolyakov.timetable.main;
 import android.content.SharedPreferences;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import ru.dmpolyakov.timetable.common.PresenterBase;
 import ru.dmpolyakov.timetable.common.utils.TimeUtils;
@@ -67,7 +68,10 @@ public class MainPresenter extends PresenterBase<MainContract.View> implements M
 
     @Override
     public void onAddTask() {
-        getView().showNewTaskDialog();
+        ArrayList<String> lastUsedTasks = timetable.getLastTasks();
+        lastUsedTasks.add("");
+        Collections.reverse(lastUsedTasks);
+        getView().showNewTaskDialog(lastUsedTasks);
     }
 
     @Override
@@ -85,7 +89,7 @@ public class MainPresenter extends PresenterBase<MainContract.View> implements M
 
     private void repeatTask(Task task) {
         long week = 604800;
-        long repeatCount = 3;
+        long repeatCount = 8;
 
         long date = TimeUtils.getTimestamp(calendar.getSelectedDate());
 
