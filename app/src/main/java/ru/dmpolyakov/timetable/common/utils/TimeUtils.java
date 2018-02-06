@@ -1,4 +1,4 @@
-package pro.redstart.myapplication.common.utils;
+package ru.dmpolyakov.timetable.common.utils;
 
 
 import java.sql.Date;

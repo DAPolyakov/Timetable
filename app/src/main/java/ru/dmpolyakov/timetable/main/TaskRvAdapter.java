@@ -1,4 +1,4 @@
-package pro.redstart.myapplication.main;
+package ru.dmpolyakov.timetable.main;
 
 
 import android.support.v7.widget.RecyclerView;
@@ -11,8 +11,8 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import pro.redstart.myapplication.R;
-import pro.redstart.myapplication.models.Task;
+import ru.dmpolyakov.timetable.R;
+import ru.dmpolyakov.timetable.models.Task;
 
 public class TaskRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 

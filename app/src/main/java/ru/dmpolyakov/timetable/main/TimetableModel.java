@@ -1,4 +1,4 @@
-package pro.redstart.myapplication.main;
+package ru.dmpolyakov.timetable.main;
 
 
 import android.content.SharedPreferences;
@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import pro.redstart.myapplication.common.utils.ConvertUtils;
-import pro.redstart.myapplication.models.Task;
+import ru.dmpolyakov.timetable.common.utils.ConvertUtils;
+import ru.dmpolyakov.timetable.models.Task;
 
 class TimetableModel {
 

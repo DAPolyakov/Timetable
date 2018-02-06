@@ -1,4 +1,4 @@
-package pro.redstart.myapplication;
+package ru.dmpolyakov.timetable;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

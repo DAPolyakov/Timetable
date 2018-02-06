@@ -1,4 +1,4 @@
-package pro.redstart.myapplication.models;
+package ru.dmpolyakov.timetable.models;
 
 
 public class CalendarDay {

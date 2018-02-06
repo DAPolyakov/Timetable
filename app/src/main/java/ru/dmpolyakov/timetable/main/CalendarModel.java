@@ -1,11 +1,11 @@
-package pro.redstart.myapplication.main;
+package ru.dmpolyakov.timetable.main;
 
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-import pro.redstart.myapplication.common.utils.TimeUtils;
-import pro.redstart.myapplication.models.CalendarDay;
+import ru.dmpolyakov.timetable.common.utils.TimeUtils;
+import ru.dmpolyakov.timetable.models.CalendarDay;
 
 class CalendarModel {
 

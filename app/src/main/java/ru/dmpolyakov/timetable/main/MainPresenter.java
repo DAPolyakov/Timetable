@@ -1,13 +1,13 @@
-package pro.redstart.myapplication.main;
+package ru.dmpolyakov.timetable.main;
 
 import android.content.SharedPreferences;
 
 import java.util.ArrayList;
 
-import pro.redstart.myapplication.common.PresenterBase;
-import pro.redstart.myapplication.common.utils.TimeUtils;
-import pro.redstart.myapplication.models.CalendarDay;
-import pro.redstart.myapplication.models.Task;
+import ru.dmpolyakov.timetable.common.PresenterBase;
+import ru.dmpolyakov.timetable.common.utils.TimeUtils;
+import ru.dmpolyakov.timetable.models.CalendarDay;
+import ru.dmpolyakov.timetable.models.Task;
 
 public class MainPresenter extends PresenterBase<MainContract.View> implements MainContract.Presenter {
 

@@ -1,4 +1,4 @@
-package pro.redstart.myapplication.common;
+package ru.dmpolyakov.timetable.common;
 
 
 public interface MvpPresenter<V extends MvpView> {

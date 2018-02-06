@@ -1,4 +1,4 @@
-package pro.redstart.myapplication;
+package ru.dmpolyakov.timetable;
 
 import org.junit.Test;
 

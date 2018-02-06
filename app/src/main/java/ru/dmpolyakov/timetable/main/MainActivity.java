@@ -1,4 +1,4 @@
-package pro.redstart.myapplication.main;
+package ru.dmpolyakov.timetable.main;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -16,9 +16,9 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import pro.redstart.myapplication.R;
-import pro.redstart.myapplication.models.CalendarDay;
-import pro.redstart.myapplication.models.Task;
+import ru.dmpolyakov.timetable.R;
+import ru.dmpolyakov.timetable.models.CalendarDay;
+import ru.dmpolyakov.timetable.models.Task;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View {
 

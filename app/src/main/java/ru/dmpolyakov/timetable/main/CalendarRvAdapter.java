@@ -1,4 +1,4 @@
-package pro.redstart.myapplication.main;
+package ru.dmpolyakov.timetable.main;
 
 
 import android.content.Context;
@@ -13,8 +13,8 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import pro.redstart.myapplication.R;
-import pro.redstart.myapplication.models.CalendarDay;
+import ru.dmpolyakov.timetable.R;
+import ru.dmpolyakov.timetable.models.CalendarDay;
 
 public class CalendarRvAdapter extends RecyclerView.Adapter<CalendarRvAdapter.ViewHolder> {
 

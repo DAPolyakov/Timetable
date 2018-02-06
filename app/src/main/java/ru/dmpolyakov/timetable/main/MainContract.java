@@ -1,12 +1,12 @@
-package pro.redstart.myapplication.main;
+package ru.dmpolyakov.timetable.main;
 
 
 import java.util.ArrayList;
 
-import pro.redstart.myapplication.common.MvpPresenter;
-import pro.redstart.myapplication.common.MvpView;
-import pro.redstart.myapplication.models.CalendarDay;
-import pro.redstart.myapplication.models.Task;
+import ru.dmpolyakov.timetable.common.MvpPresenter;
+import ru.dmpolyakov.timetable.common.MvpView;
+import ru.dmpolyakov.timetable.models.CalendarDay;
+import ru.dmpolyakov.timetable.models.Task;
 
 public interface MainContract {
 
