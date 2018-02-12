@@ -20,8 +20,16 @@ public interface MainContract {
         void clearNewTaskDialog();
         void dismissNewTaskDialog();
 
+        void updateTaskList(ArrayList<String> tasks);
+
         void showInfoTaskDialog(Task task);
         void dismissInfoTaskDialog();
+
+        void showFilterLabel(String filter);
+
+        void closeDrawer();
+
+        void hideKeyboard();
     }
 
     interface Presenter extends MvpPresenter<View> {
@@ -36,6 +44,13 @@ public interface MainContract {
         void onSaveTaskDescription(Task task, String description);
         void onRemoveTask(Task task);
 
+        void onDrawerOpen();
+        void onAddTaskToDatabase(String task);
+        void onRemoveTaskFromDatabase(String task);
+
         void saveState();
+
+        void onFilterCancel();
+        void onSetFilter(String filter);
     }
 }

@@ -29,6 +29,7 @@ class TimetableModel {
 
     private ArrayList<Task> selectedTask = new ArrayList<>();
     private String selectedDate = "";
+    private String filter = "";
 
     TimetableModel(SharedPreferences preferences) {
         this.preferences = preferences;
@@ -40,7 +41,6 @@ class TimetableModel {
                 selectedTask,
                 (a, b) -> (a.getStHour() * 60 + a.getStMinute() - b.getStHour() * 60 - b.getStMinute()));
         saveTasks(selectedTask, selectedDate);
-        addTaskToCache(task.getTitle());
     }
 
     void addTask(Task task, String date) {
@@ -60,11 +60,31 @@ class TimetableModel {
     ArrayList<Task> getTasks(String date) {
         selectedTask = loadTasks(date);
         selectedDate = date;
-        return selectedTask;
+
+        if (Objects.equals(filter, "")) {
+            return selectedTask;
+        } else {
+            return filterTask(selectedTask);
+        }
+    }
+
+    private ArrayList<Task> filterTask(ArrayList<Task> selectedTask){
+        ArrayList<Task> filtered = new ArrayList<>();
+
+        for (Task task: selectedTask){
+            if (Objects.equals(task.getTitle().toLowerCase(), filter)){
+                filtered.add(task);
+            }
+        }
+        return filtered;
     }
 
     int getCountTask(String date) {
-        return loadTasks(date).size();
+        if (Objects.equals(filter, "")) {
+            return loadTasks(date).size();
+        } else {
+            return filterTask(loadTasks(date)).size();
+        }
     }
 
     private ArrayList<Task> loadTasks(String date) {
@@ -116,22 +136,36 @@ class TimetableModel {
         return ConvertUtils.convertListToArray(tasks);
     }
 
-    private void addTaskToCache(String title) {
+    ArrayList<String> addTaskToDatabase(String title) {
         ArrayList<String> tasks = getLastTasks();
+        tasks.add(title);
+
+        Collections.sort(tasks, String::compareToIgnoreCase);
+        saveDatabaseTask(tasks);
+        return tasks;
+    }
+
+    ArrayList<String> removeTaskFromDatabase(String title) {
+        ArrayList<String> tasks = getLastTasks();
+
         for (String task : tasks) {
-            if (Objects.equals(task, title)){
+            if (Objects.equals(task, title)) {
                 tasks.remove(task);
                 break;
             }
         }
 
-        tasks.add(title);
-        while (tasks.size() > 7){
-            tasks.remove(0);
-        }
+        saveDatabaseTask(tasks);
+        return tasks;
+    }
 
-        JsonAdapter<List<String >> jsonAdapter = moshi.adapter(TYPE_LIST_LAST_TASK);
+    private void saveDatabaseTask(ArrayList<String> tasks) {
+        JsonAdapter<List<String>> jsonAdapter = moshi.adapter(TYPE_LIST_LAST_TASK);
         String json = jsonAdapter.toJson(tasks);
         save(KEY_LAST_TASK, json);
+    }
+
+    void setFilter(String filter) {
+        this.filter = filter.toLowerCase();
     }
 }

@@ -6,6 +6,7 @@ public class CalendarDay {
     private int number;
     private boolean isActive;
     private int load = 0;
+    private boolean isSelected = false;
 
     public CalendarDay(int number, boolean isActive) {
         this.number = number;
@@ -26,5 +27,13 @@ public class CalendarDay {
 
     public int getLoad() {
         return load;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }

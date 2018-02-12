@@ -3,11 +3,14 @@ package ru.dmpolyakov.timetable.main;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,6 +24,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.dmpolyakov.timetable.R;
+import ru.dmpolyakov.timetable.common.utils.KeyboardUtils;
 import ru.dmpolyakov.timetable.models.CalendarDay;
 import ru.dmpolyakov.timetable.models.Task;
 
@@ -36,6 +40,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     TextView next;
     @BindView(R.id.mouthYear)
     TextView date;
+    @BindView(R.id.filter)
+    TextView filter;
+    @BindView(R.id.drawer)
+    DrawerLayout drawer;
+    @BindView(R.id.task_list_rv)
+    RecyclerView rvTaskList;
 
     private MainContract.Presenter presenter;
     private SharedPreferences preferences;
@@ -54,11 +64,16 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         presenter.attachView(this);
 
         initRv();
+        initDrawer();
         createNewTaskDialog();
         createInfoTaskDialog();
 
         previous.setOnClickListener(view -> presenter.onPreviousMouth());
         next.setOnClickListener(view -> presenter.onNextMouth());
+        filter.setOnClickListener(view -> {
+            presenter.onFilterCancel();
+            filter.setVisibility(View.GONE);
+        });
 
         presenter.viewIsReady();
     }
@@ -66,10 +81,30 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private void initRv() {
         GridLayoutManager manager = new GridLayoutManager(this, 7, GridLayoutManager.VERTICAL, false);
         rvCalendar.setLayoutManager(manager);
+//        ((SimpleItemAnimator) rvCalendar.getItemAnimator()).setSupportsChangeAnimations(false);
+        rvCalendar.setItemAnimator(null);
         rvCalendar.setAdapter(new CalendarRvAdapter(presenter, new ArrayList<>()));
 
         rvTask.setLayoutManager(new LinearLayoutManager(this));
         rvTask.setAdapter(new TaskRvAdapter(presenter, new ArrayList<>()));
+
+        rvTaskList.setLayoutManager(new LinearLayoutManager(this));
+        rvTaskList.setAdapter(new TaskListRvAdapter(presenter, new ArrayList<>()));
+    }
+
+    private void initDrawer() {
+        drawer.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                presenter.onDrawerOpen();
+            }
+        });
+    }
+
+    @Override
+    public void updateTaskList(ArrayList<String> tasks) {
+        ((TaskListRvAdapter) rvTaskList.getAdapter()).changeData(tasks);
     }
 
     @Override
@@ -105,6 +140,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void showTasks(ArrayList<Task> tasks) {
         ((TaskRvAdapter) rvTask.getAdapter()).changeData(tasks);
+    }
+
+    @Override
+    public void showFilterLabel(String filter) {
+        this.filter.setVisibility(View.VISIBLE);
+        filter = "Сбросить фильтр: " + filter;
+        this.filter.setText(filter);
     }
 
     @Override
@@ -209,5 +251,18 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void dismissInfoTaskDialog() {
         infoTaskDialog.dismiss();
+    }
+
+    @Override
+    public void closeDrawer() {
+        int gravity = GravityCompat.START;
+        if (drawer.isDrawerOpen(gravity)) {
+            drawer.closeDrawer(gravity);
+        }
+    }
+
+    @Override
+    public void hideKeyboard() {
+        KeyboardUtils.hideKeyboard(this);
     }
 }

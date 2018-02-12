@@ -22,6 +22,7 @@ public class MainPresenter extends PresenterBase<MainContract.View> implements M
     @Override
     public void viewIsReady() {
         updateCalendarView();
+        updateViewTaskList(timetable.getLastTasks());
     }
 
     @Override
@@ -68,10 +69,10 @@ public class MainPresenter extends PresenterBase<MainContract.View> implements M
 
     @Override
     public void onAddTask() {
-        ArrayList<String> lastUsedTasks = timetable.getLastTasks();
-        lastUsedTasks.add("");
-        Collections.reverse(lastUsedTasks);
-        getView().showNewTaskDialog(lastUsedTasks);
+        ArrayList<String> tasksList = new ArrayList<>();
+        tasksList.add("");
+        tasksList.addAll(timetable.getLastTasks());
+        getView().showNewTaskDialog(tasksList);
     }
 
     @Override
@@ -95,9 +96,12 @@ public class MainPresenter extends PresenterBase<MainContract.View> implements M
 
         for (int i = 1; i <= repeatCount; i++) {
             date += week;
-            timetable.addTask(task, TimeUtils.getDate(date*1000));
+            timetable.addTask(task, TimeUtils.getDate(date * 1000));
         }
+    }
 
+    private void updateViewTaskList(ArrayList<String> tasks) {
+        getView().updateTaskList(tasks);
     }
 
     @Override
@@ -108,6 +112,45 @@ public class MainPresenter extends PresenterBase<MainContract.View> implements M
     @Override
     public void onSaveTaskDescription(Task task, String description) {
         task.setDescription(description);
+    }
+
+    @Override
+    public void onSetFilter(String filter) {
+        timetable.setFilter(filter);
+
+//        updateCalendarView();
+        getView().setDate(calendar.getDate());
+        getView().showDays(changeDaysLoad(calendar.getDays()));
+        getView().setSelectedDay(calendar.getSelectedDay());
+        updateTaskView();
+
+        getView().showFilterLabel(filter);
+        getView().closeDrawer();
+        getView().hideKeyboard();
+    }
+
+    @Override
+    public void onFilterCancel() {
+        timetable.setFilter("");
+        updateCalendarView();
+    }
+
+    @Override
+    public void onDrawerOpen() {
+
+    }
+
+    @Override
+    public void onAddTaskToDatabase(String title) {
+        if (title.length() > 0) {
+            getView().updateTaskList(timetable.addTaskToDatabase(title));
+            getView().hideKeyboard();
+        }
+    }
+
+    @Override
+    public void onRemoveTaskFromDatabase(String title) {
+        getView().updateTaskList(timetable.removeTaskFromDatabase(title));
     }
 
     @Override
